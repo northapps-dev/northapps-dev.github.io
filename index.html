@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TrueNorth Technologies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --background: hsl(0, 0%, 100%);
+            --foreground: hsl(220, 20%, 20%);
+            --card: hsl(0, 0%, 100%);
+            --primary: hsl(215, 50%, 23%);
+            --primary-foreground: hsl(0, 0%, 100%);
+            --muted-foreground: hsl(220, 10%, 46%);
+            --border: hsl(220, 13%, 91%);
+            --section-bg: hsl(220, 14%, 98%);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1, h2, h3 {
+            font-weight: 600;
+            line-height: 1.2;
+            color: var(--foreground);
+        }
+
+        h1 { font-size: 2rem; }
+        h2 { font-size: 1.75rem; }
+        h3 { font-size: 1.25rem; }
+
+        @media (min-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            h2 { font-size: 2rem; }
+            h3 { font-size: 1.5rem; }
+        }
+
+        .container-wide {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .container-narrow {
+            max-width: 896px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header */
+        header {
+            border-bottom: 1px solid var(--border);
+            background: var(--background);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        header .container-wide {
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--foreground);
+        }
+
+        .logo-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 0.5rem;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-foreground);
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .logo-text {
+            font-weight: 600;
+        }
+
+        nav {
+            display: flex;
+            gap: 0.25rem;
+        }
+
+        nav a {
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            border-radius: 0.375rem;
+            text-decoration: none;
+            color: var(--muted-foreground);
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: var(--foreground);
+        }
+
+        nav a.active {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+        }
+
+        section {
+            position: relative;
+        }
+
+        .section-alt {
+            background: var(--section-bg);
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 5rem 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @media (min-width: 768px) {
+            .hero {
+                padding: 7rem 0;
+            }
+        }
+
+        .hero-content {
+            max-width: 42rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-icons {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .hero-badge span {
+            font-size: 0.875rem;
+            font-weight: 500;
+            color: var(--muted-foreground);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero h1 {
+            margin-bottom: 1rem;
+        }
+
+        .hero p {
+            font-size: 1.125rem;
+            color: var(--muted-foreground);
+        }
+
+        /* Floating Icons */
+        .float-icons {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .float-icon {
+            position: absolute;
+            color: var(--primary);
+        }
+
+        .float-icon.icon-1 { top: 4rem; right: 10%; width: 4rem; height: 4rem; opacity: 0.1; animation: float-slow 6s ease-in-out infinite; }
+        .float-icon.icon-2 { top: 8rem; right: 25%; width: 2.5rem; height: 2.5rem; opacity: 0.08; animation: float-medium 4s ease-in-out infinite; }
+        .float-icon.icon-3 { bottom: 5rem; right: 15%; width: 3rem; height: 3rem; opacity: 0.1; animation: float-fast 3s ease-in-out infinite; }
+        .float-icon.icon-4 { bottom: 8rem; right: 30%; width: 2rem; height: 2rem; opacity: 0.08; animation: float-delayed 5s ease-in-out infinite; }
+        .float-icon.icon-5 { top: 6rem; right: 40%; width: 2rem; height: 2rem; opacity: 0.06; animation: float-delayed-2 4.5s ease-in-out infinite; }
+
+        @keyframes float-slow {
+            0%, 100% { transform: translateY(0) rotate(12deg); }
+            50% { transform: translateY(-12px) rotate(12deg); }
+        }
+
+        @keyframes float-medium {
+            0%, 100% { transform: translateY(0) rotate(-12deg); }
+            50% { transform: translateY(-8px) rotate(-8deg); }
+        }
+
+        @keyframes float-fast {
+            0%, 100% { transform: translateY(0) rotate(6deg); }
+            50% { transform: translateY(-6px) rotate(10deg); }
+        }
+
+        @keyframes float-delayed {
+            0%, 100% { transform: translateY(0) rotate(12deg); }
+            50% { transform: translateY(-12px) rotate(12deg); }
+        }
+
+        @keyframes float-delayed-2 {
+            0%, 100% { transform: translateY(0) rotate(-12deg); }
+            50% { transform: translateY(-8px) rotate(-8deg); }
+        }
+
+        /* About Section */
+        .about {
+            padding: 4rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .about {
+                padding: 5rem 0;
+            }
+        }
+
+        .about h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .about-content {
+            max-width: 48rem;
+        }
+
+        .about-content p {
+            color: var(--muted-foreground);
+            margin-bottom: 1rem;
+        }
+
+        /* Services Section */
+        .services {
+            padding: 4rem 0;
+        }
+
+        @media (min-width: 768px) {
+            .services {
+                padding: 5rem 0;
+            }
+        }
+
+        .services h2 {
+            margin-bottom: 2.5rem;
+        }
+
+        .services-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        @media (min-width: 768px) {
+            .services-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .service-card {
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            border: 1px solid var(--border);
+            background: var(--card);
+            transition: border-color 0.2s;
+        }
+
+        .service-card:hover {
+            border-color: hsla(215, 50%, 23%, 0.2);
+        }
+
+        .service-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: 0.5rem;
+            background: hsla(215, 50%, 23%, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .service-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            color: var(--primary);
+        }
+
+        .service-card h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .service-card p {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        /* Contact Section */
+        .contact-box {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            padding: 2rem;
+            max-width: 28rem;
+        }
+
+        .contact-box-inner {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .contact-icon {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 0.5rem;
+            background: hsla(215, 50%, 23%, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .contact-icon svg {
+            width: 1.5rem;
+            height: 1.5rem;
+            color: var(--primary);
+        }
+
+        .contact-info h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .contact-info p {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .contact-info a {
+            color: var(--primary);
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        .contact-info a:hover {
+            text-decoration: underline;
+        }
+
+        .response-time {
+            margin-top: 3rem;
+            padding: 1.5rem;
+            background: var(--section-bg);
+            border-radius: 0.5rem;
+        }
+
+        .response-time h3 {
+            font-size: 1.125rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .response-time p {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+        }
+
+        /* Privacy Section */
+        .legal-content h2 {
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .legal-content h3 {
+            font-size: 1.125rem;
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legal-content p {
+            margin-bottom: 1rem;
+            color: var(--muted-foreground);
+            line-height: 1.75;
+        }
+
+        .legal-content ul {
+            list-style: disc;
+            list-style-position: inside;
+            margin-bottom: 1rem;
+            color: var(--muted-foreground);
+        }
+
+        .legal-content li {
+            line-height: 1.75;
+            margin-bottom: 0.5rem;
+        }
+
+        .legal-content a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+
+        .legal-content a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            border-top: 1px solid var(--border);
+            background: var(--background);
+        }
+
+        footer .container-wide {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        @media (min-width: 768px) {
+            footer .container-wide {
+                flex-direction: row;
+            }
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 0.25rem;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-foreground);
+            font-weight: 700;
+            font-size: 0.75rem;
+        }
+
+        .footer-brand span {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+        }
+
+        footer a {
+            font-size: 0.875rem;
+            color: var(--muted-foreground);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        footer a:hover {
+            color: var(--primary);
+        }
+
+        /* Page Sections */
+        .page {
+            display: none;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Icons */
+        svg {
+            display: inline-block;
+            vertical-align: middle;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container-wide">
+            <a href="#home" class="logo" onclick="showPage('home')">
+                <div class="logo-icon">TN</div>
+                <span class="logo-text">TrueNorth Technologies</span>
+            </a>
+            <nav>
+                <a href="#home" class="nav-link active" data-page="home" onclick="showPage('home')">Home</a>
+                <a href="#privacy" class="nav-link" data-page="privacy" onclick="showPage('privacy')">Privacy Policy</a>
+                <a href="#contact" class="nav-link" data-page="contact" onclick="showPage('contact')">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <!-- Hero Section -->
+            <section class="hero">
+                <div class="float-icons">
+                    <svg class="float-icon icon-1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                    <svg class="float-icon icon-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m-9-9h6m6 0h6"/></svg>
+                    <svg class="float-icon icon-3" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2m-6 0V2m6 20v-2m-6 2v-2M2 15h2m18 0h2M2 9h2m18 0h2"/></svg>
+                    <svg class="float-icon icon-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    <svg class="float-icon icon-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                </div>
+                <div class="container-wide">
+                    <div class="hero-content">
+                        <div class="hero-badge">
+                            <div class="hero-icons">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary)"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--muted-foreground)"><circle cx="12" cy="12" r="3"/><path d="M12 1v6m0 6v6m-9-9h6m6 0h6"/></svg>
+                            </div>
+                            <span>Android Development</span>
+                        </div>
+                        <h1>Building simple & reliable mobile applications</h1>
+                        <p>TrueNorth Technologies is an independent mobile app development studio focused on building clean, user-friendly, and privacy-first mobile applications.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section class="about section-alt">
+                <div class="container-wide">
+                    <h2>About Us</h2>
+                    <div class="about-content">
+                        <p>We are a dedicated team of developers passionate about creating mobile applications that make a real difference in people's daily lives. Our focus is on delivering high-quality, reliable software that respects user privacy.</p>
+                        <p>Every application we build follows strict quality standards and undergoes thorough testing to ensure a stable, bug-free experience for our users.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="services">
+                <div class="container-wide">
+                    <h2>What We Do</h2>
+                    <div class="services-grid">
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+                            </div>
+                            <h3>Mobile Application Development</h3>
+                            <p>Native and cross-platform mobile apps built with modern technologies and best practices.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1"/><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/></svg>
+                            </div>
+                            <h3>Finance & Utility Apps</h3>
+                            <p>Practical applications designed to help users manage their daily tasks efficiently.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a10 10 0 0 0-9.95 9h11.64L9.74 7.05a1 1 0 0 1 1.41-1.41l5.66 5.65a1 1 0 0 1 0 1.42l-5.66 5.65a1 1 0 0 1-1.41 0 1 1 0 0 1 0-1.41L13.69 13H2.05A10 10 0 1 0 12 2Z"/></svg>
+                            </div>
+                            <h3>Clean UI/UX</h3>
+                            <p>Intuitive interfaces that prioritize usability and a seamless user experience.</p>
+                        </div>
+                        <div class="service-card">
+                            <div class="service-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10"/></svg>
+                            </div>
+                            <h3>Privacy-First Solutions</h3>
+                            <p>Applications built with user privacy and data security as a core principle.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Privacy Page -->
+        <div id="privacy" class="page">
+            <section class="about">
+                <div class="container-narrow">
+                    <h1>Privacy Policy</h1>
+                    <p style="color: var(--muted-foreground); margin-bottom: 2.5rem;">Last updated: February 6, 2026</p>
+
+                    <div class="legal-content">
+                        <h2>1. Introduction</h2>
+                        <p>TrueNorth Technologies ("we," "our," or "us") is committed to protecting your privacy. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our mobile applications and services.</p>
+                        <p>Please read this Privacy Policy carefully. If you do not agree with the terms of this Privacy Policy, please do not access our applications.</p>
+
+                        <h2>2. Information We Collect</h2>
+                        <h3>Information You Provide</h3>
+                        <p>We may collect information that you voluntarily provide when using our applications, including but not limited to:</p>
+                        <ul>
+                            <li>Account registration information (if applicable)</li>
+                            <li>User preferences and settings</li>
+                            <li>Feedback and correspondence</li>
+                        </ul>
+
+                        <h3>Automatically Collected Information</h3>
+                        <p>When you use our applications, we may automatically collect certain information, including:</p>
+                        <ul>
+                            <li>Device information (device type, operating system version)</li>
+                            <li>Application usage statistics</li>
+                            <li>Crash reports and performance data</li>
+                        </ul>
+
+                        <h2>3. How We Use Your Information</h2>
+                        <p>We use the information we collect to:</p>
+                        <ul>
+                            <li>Provide, maintain, and improve our applications</li>
+                            <li>Respond to your comments, questions, and support requests</li>
+                            <li>Monitor and analyze usage patterns and trends</li>
+                            <li>Detect, prevent, and address technical issues</li>
+                            <li>Comply with legal obligations</li>
+                        </ul>
+
+                        <h2>4. Data Storage and Security</h2>
+                        <p>We implement appropriate technical and organizational measures to protect your personal information against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the Internet or electronic storage is 100% secure.</p>
+
+                        <h2>5. Third-Party Services</h2>
+                        <p>Our applications may contain links to third-party websites or services. We are not responsible for the privacy practices of these third parties. We encourage you to read the privacy policies of any third-party services you access.</p>
+
+                        <h2>6. Children's Privacy</h2>
+                        <p>Our applications are not intended for children under the age of 13. We do not knowingly collect personal information from children under 13. If you are a parent or guardian and believe your child has provided us with personal information, please contact us.</p>
+
+                        <h2>7. Your Rights</h2>
+                        <p>Depending on your location, you may have the right to:</p>
+                        <ul>
+                            <li>Access the personal information we hold about you</li>
+                            <li>Request correction of inaccurate information</li>
+                            <li>Request deletion of your personal information</li>
+                            <li>Object to or restrict processing of your information</li>
+                            <li>Data portability</li>
+                        </ul>
+
+                        <h2>8. Changes to This Policy</h2>
+                        <p>We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page and updating the "Last updated" date.</p>
+
+                        <h2>9. Contact Us</h2>
+                        <p>If you have any questions about this Privacy Policy or our privacy practices, please contact us at:</p>
+                        <p><strong>Email:</strong> <a href="mailto:northapps.dev@outlook.com">northapps.dev@outlook.com</a></p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Contact Page -->
+        <div id="contact" class="page">
+            <section class="about">
+                <div class="container-narrow">
+                    <h1>Contact Us</h1>
+                    <p style="color: var(--muted-foreground); margin-bottom: 2.5rem; max-width: 36rem;">Have questions, feedback, or need support? We'd love to hear from you. Reach out to us using the information below.</p>
+
+                    <div class="contact-box">
+                        <div class="contact-box-inner">
+                            <div class="contact-icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+                            </div>
+                            <div class="contact-info">
+                                <h3>Email</h3>
+                                <p>For general inquiries, support, or business matters</p>
+                                <a href="mailto:northapps.dev@outlook.com">northapps.dev@outlook.com</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="response-time">
+                        <h3>Response Time</h3>
+                        <p>We typically respond to all inquiries within 1-2 business days. For urgent matters, please indicate so in your email subject line.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container-wide">
+            <div class="footer-brand">
+                <div class="footer-icon">TN</div>
+                <span>© <span id="year"></span> TrueNorth Technologies. All rights reserved.</span>
+            </div>
+            <a href="mailto:northapps.dev@outlook.com">northapps.dev@outlook.com</a>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Page navigation
+        function showPage(pageName) {
+            // Hide all pages
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show selected page
+            document.getElementById(pageName).classList.add('active');
+
+            // Update nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.dataset.page === pageName) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Scroll to top
+            window.scrollTo(0, 0);
+        }
+
+        // Handle hash navigation
+        window.addEventListener('hashchange', function() {
+            const hash = window.location.hash.substring(1);
+            if (hash && document.getElementById(hash)) {
+                showPage(hash);
+            }
+        });
+
+        // Check initial hash
+        if (window.location.hash) {
+            const hash = window.location.hash.substring(1);
+            if (document.getElementById(hash)) {
+                showPage(hash);
+            }
+        }
+    </script>
+</body>
+</html>
